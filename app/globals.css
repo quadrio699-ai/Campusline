@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: theme("colors.paper");
+    color: theme("colors.ink");
+  }
+
+  ::selection {
+    background-color: theme("colors.stamp");
+    color: theme("colors.paper-raised");
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.stamp");
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Perforated top/bottom edge, like a tear-off ticket stub */
+  .perf-edge {
+    position: relative;
+  }
+  .perf-edge::before,
+  .perf-edge::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-image: radial-gradient(
+      circle,
+      theme("colors.paper") 2.5px,
+      transparent 2.6px
+    );
+    background-size: 16px 1px;
+    background-repeat: repeat-x;
+  }
+  .perf-edge::before {
+    top: 0;
+  }
+  .perf-edge::after {
+    bottom: 0;
+  }
+
+  .finder {
+    position: relative;
+  }
+  .finder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid currentColor;
+  }
+  .finder::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: currentColor;
+  }
+}
