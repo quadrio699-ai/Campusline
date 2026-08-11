@@ -4,8 +4,8 @@ export default function Footer() {
       <div className="mx-auto flex max-w-5xl flex-col gap-3 text-center font-body text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:text-left">
         <p>
           Built by{" "}
-          <span className="text-ink">Marvellous Al-ameen</span> — candidate
-          for LASU SUG President.
+          <span className="text-ink">Marvellous Al-ameen</span>, a concerned
+          LASU student.
         </p>
         <p>
           <a
@@ -18,7 +18,7 @@ export default function Footer() {
       </div>
       <p className="mx-auto mt-4 max-w-5xl text-center font-body text-[11px] text-ink-muted/80 sm:text-left">
         CampusLine is an independent student initiative and is not
-        affiliated with LASU management or the sitting SUG.
+        affiliated with LASU management.
       </p>
     </footer>
   );

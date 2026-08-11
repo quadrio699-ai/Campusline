@@ -1,6 +1,6 @@
 # CampusLine
 
-Registration-season tips and a direct, anonymous line for LASU students to raise concerns — built by Marvellous Al-ameen, candidate for SUG President.
+Registration-season tips and a direct, anonymous line for LASU students to raise concerns — built by Marvellous Al-ameen, a concerned LASU student.
 
 ## 1. Set up the database (Supabase)
 
@@ -46,17 +46,28 @@ Visit `http://localhost:3000`. Try submitting the concern form and check it show
 - Once you know your live domain (e.g. `campusline.vercel.app` or a custom domain), replace the placeholder `siteUrl` value in three files: `app/layout.tsx`, `app/sitemap.ts`, and `app/robots.ts`. This is what search engines and shared links will use.
 - Double check the footer's contact email is the one you want public.
 
-## 5. Deploy (free, on Vercel)
+## 5. Turn on email alerts (optional, free)
+
+Get an email the moment someone submits a concern:
+
+1. Go to resend.com and sign up — no credit card needed.
+2. Create an API key (Dashboard → API Keys → Create).
+3. Add `RESEND_API_KEY` and `NOTIFY_EMAIL` to your `.env.local` (see `.env.example`).
+4. `NOTIFY_EMAIL` must be the same email you signed up to Resend with, until you verify your own domain there — after that you can send to anyone.
+
+Free tier covers 3,000 emails/month (100/day), which is far more than this will ever need. If these two env vars aren't set, the site just skips sending the email — nothing breaks.
+
+## 6. Deploy (free, on Vercel)
 
 1. Push this project to a new GitHub repository.
 2. Go to vercel.com, sign in with GitHub, and click "Add New Project" → import the repo.
-3. In the project's Environment Variables settings, add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` with the same values from your `.env.local`.
+3. In the project's Environment Variables settings, add all four values from your `.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `RESEND_API_KEY`, and `NOTIFY_EMAIL` (skip the last two if you didn't set up email alerts).
 4. Deploy. You'll get a free `.vercel.app` link — that's what goes on your QR code/poster.
 
 ## What's already handled for SEO
 
 - Unique title, meta description, Open Graph, and Twitter card tags (`app/layout.tsx`)
-- JSON-LD structured data describing the site and the candidate
+- JSON-LD structured data describing the site and its builder
 - Auto-generated `sitemap.xml` and `robots.txt` (`app/sitemap.ts`, `app/robots.ts`)
 - One clear heading per section, semantic HTML throughout
 - Mobile-first, responsive layout

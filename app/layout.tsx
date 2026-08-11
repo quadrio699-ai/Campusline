@@ -34,19 +34,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "CampusLine — Registration help and a direct line for LASU students",
   description:
-    "CampusLine is an independent tool for LASU students: registration season tips, and a direct, anonymous line to raise what isn't working. Built by Marvellous Al-ameen, candidate for SUG President.",
+    "CampusLine is an independent tool for LASU students: registration season tips, and a direct, anonymous line to raise what isn't working. Built by a concerned LASU student.",
   keywords: [
     "LASU",
-    "LASU SUG",
-    "Lagos State University student union",
     "LASU registration help",
-    "Marvellous Al-ameen",
+    "LASU registration tips",
+    "Lagos State University",
   ],
   authors: [{ name: "Marvellous Al-ameen" }],
   openGraph: {
     title: "CampusLine — A direct line for LASU students",
     description:
-      "Registration season tips and a direct line to raise what isn't working, from Marvellous Al-ameen, candidate for LASU SUG President.",
+      "Registration season tips and a direct line to raise what isn't working, from a concerned LASU student.",
     url: siteUrl,
     siteName: "CampusLine",
     locale: "en_NG",
@@ -77,7 +76,6 @@ const jsonLd = {
       "@type": "Person",
       name: "Marvellous Al-ameen",
       url: siteUrl,
-      jobTitle: "Candidate for LASU SUG President",
       affiliation: {
         "@type": "CollegeOrUniversity",
         name: "Lagos State University",

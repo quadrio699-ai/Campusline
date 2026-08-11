@@ -52,6 +52,20 @@ export default function ConcernForm() {
 
     setStatus("sent");
     form.reset();
+
+    // The concern is already saved — this is just a heads-up email, so we
+    // don't wait for it or let it affect what the student sees.
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        category: formData.get("category"),
+        message,
+        isAnonymous: anonymous,
+      }),
+    }).catch(() => {
+      // Silently ignored — the concern itself is safe in Supabase either way.
+    });
   }
 
   if (status === "sent") {
