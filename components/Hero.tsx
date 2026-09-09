@@ -12,7 +12,7 @@ export default function Hero() {
             Say what&apos;s actually wrong.
           </h1>
           <p className="mt-6 max-w-md font-body text-base leading-relaxed text-ink-muted md:text-lg">
-            CampusLine is an independent tool built by the Quadri Marvellous Initiative — registration season tips, and a direct line to raise
+            CampusLine is an independent tool from the Quadri Marvellous Initiative — registration season tips, and a direct line to raise
             what isn&apos;t working. No login, no queue.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
