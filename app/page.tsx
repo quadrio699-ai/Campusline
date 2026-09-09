@@ -14,7 +14,7 @@ export default function Home() {
             What&apos;s not working for you
           </p>
           <h2 className="mt-3 font-display text-3xl font-medium text-ink md:text-4xl">
-            Say it here. It goes straight to Marvellous, not the admin.
+            Say it here. It goes straight to your campus welfare office.
           </h2>
           <p className="mt-3 font-body text-sm text-ink-muted">
             Stay anonymous if you'd rather — either way, it's read.
