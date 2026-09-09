@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { CAMPUSES } from "@/lib/campuses";
 
 const CATEGORIES = [
   "Registration / portal",
@@ -18,6 +19,7 @@ export default function ConcernForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [anonymous, setAnonymous] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [sentCampus, setSentCampus] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,6 +29,7 @@ export default function ConcernForm() {
     const form = event.currentTarget;
     const formData = new FormData(form);
     const message = String(formData.get("message") ?? "").trim();
+    const campus = String(formData.get("campus") ?? "");
 
     if (!message) {
       setStatus("error");
@@ -35,6 +38,7 @@ export default function ConcernForm() {
     }
 
     const { error } = await supabase.from("concerns").insert({
+      campus,
       category: formData.get("category"),
       message,
       name: anonymous ? null : String(formData.get("name") ?? "").trim() || null,
@@ -50,6 +54,7 @@ export default function ConcernForm() {
       return;
     }
 
+    setSentCampus(campus);
     setStatus("sent");
     form.reset();
 
@@ -59,6 +64,7 @@ export default function ConcernForm() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        campus,
         category: formData.get("category"),
         message,
         isAnonymous: anonymous,
@@ -78,8 +84,8 @@ export default function ConcernForm() {
           Got it — thank you.
         </p>
         <p className="mx-auto mt-2 max-w-sm font-body text-sm text-ink-muted">
-          This goes straight to Marvellous, not the school administration.
-          Every concern here shapes what he'd actually push for.
+          This goes straight to the {sentCampus || "campus"} Welfare Office —
+          it's also saved so patterns across campuses can be tracked.
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -97,6 +103,24 @@ export default function ConcernForm() {
       className="perf-edge rounded-ticket bg-paper-raised p-6 md:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
+        <label className="flex flex-col gap-2 sm:col-span-2">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
+            Campus
+          </span>
+          <select
+            name="campus"
+            required
+            defaultValue={CAMPUSES[0].value}
+            className="rounded-ticket border border-ink/15 bg-paper px-4 py-3 font-body text-sm text-ink"
+          >
+            {CAMPUSES.map((campus) => (
+              <option key={campus.value} value={campus.value}>
+                {campus.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
         <label className="flex flex-col gap-2 sm:col-span-2">
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
             Category
