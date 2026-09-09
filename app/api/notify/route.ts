@@ -1,30 +1,46 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { CAMPUSES } from "@/lib/campuses";
 
 // Server-only env vars (no NEXT_PUBLIC_ prefix) — never reach the browser.
 const resendApiKey = process.env.RESEND_API_KEY;
-const notifyEmail = process.env.NOTIFY_EMAIL;
+// Fallback recipient — used for any campus whose own NOTIFY_EMAIL_* isn't
+// configured yet, so nothing silently vanishes while officers are onboarded.
+const fallbackEmail = process.env.NOTIFY_EMAIL;
+
+function emailForCampus(campus: string | undefined): string | undefined {
+  const match = CAMPUSES.find((c) => c.value === campus);
+  const campusEmail = match ? process.env[match.envVar] : undefined;
+  return campusEmail || fallbackEmail;
+}
 
 export async function POST(request: Request) {
   // The concern is already safely saved in Supabase by the time this runs —
   // this route only sends a heads-up email, so any failure here is quiet
   // and never affects what the student sees.
   try {
-    if (!resendApiKey || !notifyEmail) {
+    if (!resendApiKey) {
+      console.warn("Email alerts skipped: RESEND_API_KEY not set.");
+      return NextResponse.json({ skipped: true });
+    }
+
+    const { category, message, isAnonymous, campus } = await request.json();
+    const notifyEmail = emailForCampus(campus);
+
+    if (!notifyEmail) {
       console.warn(
-        "Email alerts skipped: RESEND_API_KEY or NOTIFY_EMAIL not set."
+        `Email alerts skipped: no NOTIFY_EMAIL configured for "${campus}" (and no fallback NOTIFY_EMAIL set).`
       );
       return NextResponse.json({ skipped: true });
     }
 
-    const { category, message, isAnonymous } = await request.json();
     const resend = new Resend(resendApiKey);
 
     await resend.emails.send({
       from: "CampusLine <onboarding@resend.dev>",
       to: notifyEmail,
-      subject: `CampusLine: new concern — ${category}`,
-      text: `Category: ${category}\nAnonymous: ${isAnonymous ? "Yes" : "No"}\n\n${message}\n\n— View full details, and any name/matric number given, in Supabase's Table Editor.`,
+      subject: `CampusLine — ${campus ?? "Unspecified campus"}: new concern (${category})`,
+      text: `Campus: ${campus ?? "Not specified"}\nCategory: ${category}\nAnonymous: ${isAnonymous ? "Yes" : "No"}\n\n${message}\n\n— View full details, and any name/matric number given, in Supabase's Table Editor.`,
     });
 
     return NextResponse.json({ sent: true });
