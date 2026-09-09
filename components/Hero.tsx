@@ -4,7 +4,7 @@ export default function Hero() {
       <div className="mx-auto grid max-w-5xl gap-14 md:grid-cols-[1.1fr_0.9fr] md:items-center">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-stamp">
-            Built by a concerned LASU student
+           A Quadri Marvellous Initiative project
           </p>
           <h1 className="mt-5 font-display text-4xl font-medium leading-[1.05] text-ink sm:text-5xl md:text-6xl">
             Skip the queue.
@@ -12,8 +12,7 @@ export default function Hero() {
             Say what&apos;s actually wrong.
           </h1>
           <p className="mt-6 max-w-md font-body text-base leading-relaxed text-ink-muted md:text-lg">
-            CampusLine is an independent tool built by a concerned LASU
-            student — registration season tips, and a direct line to raise
+            CampusLine is an independent tool built by the Quadri Marvellous Initiative — registration season tips, and a direct line to raise
             what isn&apos;t working. No login, no queue.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
