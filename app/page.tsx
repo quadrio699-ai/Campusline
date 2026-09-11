@@ -17,7 +17,8 @@ export default function Home() {
             Say it here. It goes straight to your campus welfare office.
           </h2>
           <p className="mt-3 font-body text-sm text-ink-muted">
-            Stay anonymous if you'd rather — either way, it's read.
+            Add your name and matric number so your welfare office can follow
+            up with you directly.
           </p>
           <div className="mt-9">
             <ConcernForm />
