@@ -17,7 +17,6 @@ type Status = "idle" | "submitting" | "sent" | "error";
 
 export default function ConcernForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [anonymous, setAnonymous] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [sentCampus, setSentCampus] = useState("");
 
@@ -41,11 +40,9 @@ export default function ConcernForm() {
       campus,
       category: formData.get("category"),
       message,
-      name: anonymous ? null : String(formData.get("name") ?? "").trim() || null,
-      matric_number: anonymous
-        ? null
-        : String(formData.get("matric_number") ?? "").trim() || null,
-      is_anonymous: anonymous,
+      name: String(formData.get("name") ?? "").trim(),
+      matric_number: String(formData.get("matric_number") ?? "").trim(),
+      is_anonymous: false,
     });
 
     if (error) {
@@ -67,7 +64,6 @@ export default function ConcernForm() {
         campus,
         category: formData.get("category"),
         message,
-        isAnonymous: anonymous,
       }),
     }).catch(() => {
       // Silently ignored — the concern itself is safe in Supabase either way.
@@ -152,42 +148,28 @@ export default function ConcernForm() {
           />
         </label>
 
-        <label className="flex items-center gap-2 sm:col-span-2">
-          <input
-            type="checkbox"
-            checked={anonymous}
-            onChange={(event) => setAnonymous(event.target.checked)}
-            className="h-4 w-4 rounded border-ink/30 text-stamp focus:ring-stamp"
-          />
-          <span className="font-body text-sm text-ink-muted">
-            I&apos;d rather stay anonymous
+        <label className="flex flex-col gap-2">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
+            Name
           </span>
+          <input
+            type="text"
+            name="name"
+            required
+            className="rounded-ticket border border-ink/15 bg-paper px-4 py-3 font-body text-sm text-ink"
+          />
         </label>
-
-        {!anonymous && (
-          <>
-            <label className="flex flex-col gap-2">
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
-                Name (optional)
-              </span>
-              <input
-                type="text"
-                name="name"
-                className="rounded-ticket border border-ink/15 bg-paper px-4 py-3 font-body text-sm text-ink"
-              />
-            </label>
-            <label className="flex flex-col gap-2">
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
-                Matric number (optional)
-              </span>
-              <input
-                type="text"
-                name="matric_number"
-                className="rounded-ticket border border-ink/15 bg-paper px-4 py-3 font-body text-sm text-ink"
-              />
-            </label>
-          </>
-        )}
+        <label className="flex flex-col gap-2">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
+            Matric number
+          </span>
+          <input
+            type="text"
+            name="matric_number"
+            required
+            className="rounded-ticket border border-ink/15 bg-paper px-4 py-3 font-body text-sm text-ink"
+          />
+        </label>
       </div>
 
       {status === "error" && (
