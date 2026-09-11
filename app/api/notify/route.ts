@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     const resend = new Resend(resendApiKey);
 
     await resend.emails.send({
-      from: "CampusLine <onboarding@resend.dev>",
+      from: "CampusLine <alerts@notifications.quadrial-ameen.com>",
       to: notifyEmail,
       subject: `CampusLine — ${campus ?? "Unspecified campus"}: new concern (${category})`,
       text: `Campus: ${campus ?? "Not specified"}\nCategory: ${category}\nAnonymous: ${isAnonymous ? "Yes" : "No"}\n\n${message}\n\n— View full details, and any name/matric number given, in Supabase's Table Editor.`,
