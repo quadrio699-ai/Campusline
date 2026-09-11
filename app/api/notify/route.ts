@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ skipped: true });
     }
 
-    const { category, message, isAnonymous, campus } = await request.json();
+    const { category, message, campus, name, matricNumber } = await request.json();
     const notifyEmail = emailForCampus(campus);
 
     if (!notifyEmail) {
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       from: "CampusLine <alerts@notifications.quadrial-ameen.com>",
       to: notifyEmail,
       subject: `CampusLine — ${campus ?? "Unspecified campus"}: new concern (${category})`,
-      text: `Campus: ${campus ?? "Not specified"}\nCategory: ${category}\nAnonymous: ${isAnonymous ? "Yes" : "No"}\n\n${message}\n\n— View full details, and any name/matric number given, in Supabase's Table Editor.`,
+      text: `Campus: ${campus ?? "Not specified"}\nCategory: ${category}\nFrom: ${name || "Not given"} (${matricNumber || "no matric number given"})\n\n${message}`,
     });
 
     return NextResponse.json({ sent: true });
