@@ -64,6 +64,8 @@ export default function ConcernForm() {
         campus,
         category: formData.get("category"),
         message,
+        name: String(formData.get("name") ?? "").trim(),
+        matricNumber: String(formData.get("matric_number") ?? "").trim(),
       }),
     }).catch(() => {
       // Silently ignored — the concern itself is safe in Supabase either way.
